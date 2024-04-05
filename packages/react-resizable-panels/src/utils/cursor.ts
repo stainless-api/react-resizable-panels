@@ -54,6 +54,7 @@ export function getCursorStyle(
 }
 
 export function resetGlobalCursorStyle() {
+  return
   if (styleElement !== null) {
     document.head.removeChild(styleElement);
 
@@ -66,6 +67,7 @@ export function setGlobalCursorStyle(
   state: CursorState,
   constraintFlags: number
 ) {
+  return
   const style = getCursorStyle(state, constraintFlags);
 
   if (currentCursorStyle === style) {
