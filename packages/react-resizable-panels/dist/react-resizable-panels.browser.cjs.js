@@ -436,9 +436,6 @@ function handlePointerMove(event) {
     });
   }
   updateResizeHandlerStates("move", event);
-
-  // Update cursor based on return value(s) from active handles
-  updateCursor();
   if (intersectingHandles.length > 0) {
     event.preventDefault();
   }
@@ -462,7 +459,6 @@ function handlePointerUp(event) {
     x,
     y
   });
-  updateCursor();
   updateListeners();
 }
 function recalculateIntersectingHandles({
@@ -528,10 +524,6 @@ function recalculateIntersectingHandles({
 }
 function reportConstraintsViolation(resizeHandleId, flag) {
   panelConstraintFlags.set(resizeHandleId, flag);
-}
-function updateCursor() {
-  panelConstraintFlags.forEach(flag => {
-  });
 }
 function updateListeners() {
   ownerDocumentCounts.forEach((_, ownerDocument) => {

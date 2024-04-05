@@ -1,5 +1,4 @@
 import { Direction, ResizeEvent } from "./types";
-import { resetGlobalCursorStyle, setGlobalCursorStyle } from "./utils/cursor";
 import { getResizeEventCoordinates } from "./utils/events/getResizeEventCoordinates";
 import { getInputType } from "./utils/getInputType";
 import { intersects } from "./utils/rects/intersects";
@@ -106,9 +105,6 @@ function handlePointerMove(event: ResizeEvent) {
 
   updateResizeHandlerStates("move", event);
 
-  // Update cursor based on return value(s) from active handles
-  updateCursor();
-
   if (intersectingHandles.length > 0) {
     event.preventDefault();
   }
@@ -127,7 +123,6 @@ function handlePointerUp(event: ResizeEvent) {
 
   updateResizeHandlerStates("up", event);
   recalculateIntersectingHandles({ target, x, y });
-  updateCursor();
 
   updateListeners();
 }
@@ -221,36 +216,6 @@ export function reportConstraintsViolation(
   flag: number
 ) {
   panelConstraintFlags.set(resizeHandleId, flag);
-}
-
-function updateCursor() {
-  let intersectsHorizontal = false;
-  let intersectsVertical = false;
-
-  intersectingHandles.forEach((data) => {
-    const { direction } = data;
-
-    if (direction === "horizontal") {
-      intersectsHorizontal = true;
-    } else {
-      intersectsVertical = true;
-    }
-  });
-
-  let constraintFlags = 0;
-  panelConstraintFlags.forEach((flag) => {
-    constraintFlags |= flag;
-  });
-
-  if (intersectsHorizontal && intersectsVertical) {
-    setGlobalCursorStyle("intersection", constraintFlags);
-  } else if (intersectsHorizontal) {
-    setGlobalCursorStyle("horizontal", constraintFlags);
-  } else if (intersectsVertical) {
-    setGlobalCursorStyle("vertical", constraintFlags);
-  } else {
-    resetGlobalCursorStyle();
-  }
 }
 
 function updateListeners() {
