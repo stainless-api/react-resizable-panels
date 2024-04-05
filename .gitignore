@@ -2,7 +2,6 @@
 *.log
 example/bundle.js
 example/.nojekyll
-dist
 website/dist
 node_modules
 .cache
